@@ -12,12 +12,17 @@ watcher = LolWatcher(api_key)
 my_region = 'na1'
 
 
+def puuid_to_name(puuid):
+    player = watcher.summoner.by_puuid(my_region, puuid)
+    return player['name']
+
 def get_player(name):
     player = watcher.summoner.by_name(my_region, name)
     return player
 
 def get_last_info(name):
     my_player = get_player(name)
+
     my_matches = watcher.match.matchlist_by_puuid(my_region, my_player['puuid'])
 
     # fetch last match detail
@@ -28,13 +33,12 @@ def get_last_info(name):
     for row in match_info['info']['participants']:
         print(row)
         participants_row = {}
+        participants_row['Username'] = puuid_to_name(row['puuid'])
         participants_row['champion'] = row['championName']
         participants_row['kills'] = row['kills']
         participants_row['deaths'] = row['deaths']
         participants_row['assists'] = row['assists']
         participants.append(participants_row)
-
-    df = pd.DataFrame(participants)
-    df
+    df = pd.DataFrame(participants).set_index('Username')
 
     return df
