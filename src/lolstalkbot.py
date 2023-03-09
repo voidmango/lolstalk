@@ -1,18 +1,16 @@
 # lolstalkbot.py
-#import pkgs
+# import pkgs
 import os
 import discord
 import lolstalk as ls
 from discord.ext import commands
 from dotenv import load_dotenv
 
+
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
 intents = discord.Intents.default()
 intents.message_content = True
-
-
 bot = commands.Bot(command_prefix="&", intents=intents)
 
 
@@ -29,9 +27,12 @@ async def on_message(message):
 
 
 @bot.command()
-async def lastgame(ctx, arg):
+async def lastgame(ctx, *, arg):
     lg = ls.get_last_info(arg)
     embed = discord.Embed(title='Last Game', description=f"```\n{lg}\n```")
     await ctx.send(embed=embed)
 
-bot.run(TOKEN)
+def main():
+    bot.run(TOKEN)
+
+main()
