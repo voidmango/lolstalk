@@ -2,8 +2,9 @@
 # import pkgs
 import os
 import discord
+import asyncio
 import lolstalk as ls
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 
 
@@ -31,6 +32,12 @@ async def lastgame(ctx, *, arg):
     lg = ls.get_last_info(arg)
     embed = discord.Embed(title='Last Game', description=f"```\n{lg}\n```")
     await ctx.send(embed=embed)
+
+#@bot.command()
+#async def lolstalk(ctx, *, arg):
+
+
+#@bot.task
 
 def main():
     bot.run(TOKEN)
